@@ -2,12 +2,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class IterativeDeepeningDFS {
-    static int globalExpandedNodes = 0;
+
+    int nodeExpansionCounter = 0;
+
     public NodePiece iterativeDeepeningHelper(NodePiece node, int depth, String goalState){
         //create local node of board state
         NodePiece currentNode = node;
 
-        //check if node depth is equivilant, otherwise, you can assume state has been checked in previous iteration
+        //check if node depth is equivalent, otherwise, you can assume state has been checked in previous iteration
         if(currentNode.nodeDepth == depth){
             //if board state is equal to goal state, return answer/result || otherwise null
             if(currentNode.boardState.equals(goalState)){
@@ -29,7 +31,7 @@ public class IterativeDeepeningDFS {
             }
 
             //increment nodes expanded
-            globalExpandedNodes++;
+            nodeExpansionCounter++;
 
             //create a new nodepiece for recursive returning
             NodePiece tempNode = null;
@@ -168,25 +170,25 @@ public class IterativeDeepeningDFS {
                         }
                         else{
                             //assign number of expanded nodes with answer
-                            tempNode.nodesExpanded = globalExpandedNodes;
+                            tempNode.nodesExpanded = nodeExpansionCounter;
                             return tempNode;
                         }
                     }
                     else{
                         //assign number of expanded nodes with answer
-                        tempNode.nodesExpanded = globalExpandedNodes;
+                        tempNode.nodesExpanded = nodeExpansionCounter;
                         return tempNode;
                     }
                 }
                 else{
                     //assign number of expanded nodes with answer
-                    tempNode.nodesExpanded = globalExpandedNodes;
+                    tempNode.nodesExpanded = nodeExpansionCounter;
                     return tempNode;
                 }
             }
             else{
                 //assign number of expanded nodes with answer
-                tempNode.nodesExpanded = globalExpandedNodes;
+                tempNode.nodesExpanded = nodeExpansionCounter;
                 return tempNode;
             }
         }

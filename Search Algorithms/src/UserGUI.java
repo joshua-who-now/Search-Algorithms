@@ -1,7 +1,4 @@
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -269,6 +266,7 @@ public class UserGUI extends Application {
             public void handle(ActionEvent event) {
                 /* INITIAL SETUP */
                 disableUI();
+
                 resultText.setText("Running Algorithm...");
                 algorithmStatistics.setVisible(false);
 
@@ -318,9 +316,7 @@ public class UserGUI extends Application {
                         else{
                             resultText.setText("Configuration Does Not Contain: " + i + "| Potential Duplicates");
                             validConfig = false;
-                            searchSelectionBox.setDisable(false);
-                            presetBoard.setDisable(false);
-                            start.setDisable(false);
+                            enableUI();
                             break;
                         }
                     }
@@ -341,12 +337,23 @@ public class UserGUI extends Application {
                 }
 
                 // formerly board visualization (PRIOR JAVAFX IMPLEMENTATION)
-                // REMOVED FOR JAVAFX UI IMPLEMENTATION, KEEPING BLANKXYPOS AND INTARR ASSIGNMENT
+                // REMOVED FOR JAVAFX *UI* IMPLEMENTATION, KEEPING BLANKXYPOS AND INTARR ASSIGNMENT
                 for(int i = 0; i < 16; i++){
                     if(Integer.parseInt(strArr.get(i)) == 0){
                         blankXYPos = i;
                     }
                     intArr.add(Integer.parseInt(strArr.get(i)));
+                }
+
+                //check parity of loaded board to see if puzzle is solvable
+                ParityLogic parityLogic = new ParityLogic();
+                boolean parity = parityLogic.ParityCheck(intArr);
+
+                // if parity of puzzle is true, puzzle is solvable, otherwise, puzzle is not solvable
+                if(!parity){
+                    resultText.setText("Parity returned false. Puzzle is not solvable.");
+                    enableUI();
+                    return;
                 }
 
                 //Setting up our initial node
